@@ -1,0 +1,8 @@
+torch
+torchvision
+Unidecode
+flask 
+Flask_Cors
+nltk
+numpy
+pandas
