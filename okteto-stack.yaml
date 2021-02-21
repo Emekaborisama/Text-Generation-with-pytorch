@@ -1,0 +1,12 @@
+name: pytorch_api
+services:
+  fastapi:
+    public: true
+    image: DOCKERHUBUSERNAME/pytorch_api:latest
+    build: .
+    replicas: 1
+    ports:
+      - 8000
+    resources:
+      cpu: 5000m
+      memory: 1280Mi

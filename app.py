@@ -1,6 +1,9 @@
 from flask import Flask,jsonify,request,render_template, make_response
 from flask_cors import CORS, cross_origin
 from train.predict import text_generator
+import os 
+
+
 
 
 app = Flask(__name__)

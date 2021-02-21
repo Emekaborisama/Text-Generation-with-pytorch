@@ -2,6 +2,8 @@ import torch
 import torch.nn as nn
 from torch.autograd import Variable
 from train.train_ import GRUmodel, preprocess_load
+import os 
+
 
 filename = '.data/letter.txt'
 inp, tar, word_to_ix, vocab, voc_len, chunk_len= preprocess_load(filename = filename)
