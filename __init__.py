@@ -1,2 +1,2 @@
-from .predict import *
-from .trainpytorch import *
+from predict_model import *
+from trainpytorch import *
