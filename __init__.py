@@ -1,4 +1,2 @@
-from train.predict import text_generator
-from train import predict
-import train
-from train import *
+from .predict import *
+from .trainpytorch import *
