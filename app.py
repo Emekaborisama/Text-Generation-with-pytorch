@@ -1,8 +1,7 @@
 from flask import Flask,jsonify,request,render_template, make_response
 from flask_cors import CORS, cross_origin
-from train.predict import text_generator
+from train import predict
 import os 
-
 
 
 
@@ -20,7 +19,7 @@ def index():
 def lovel():
     text = requests.get_json()
     text_g = text['text']
-    result = text_generator(text_g, 40, temperature=3)
+    result = predict.text_generator(text_g, 40, temperature=3)
     return result
 
 if __name__ == '__main__':

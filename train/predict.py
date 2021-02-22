@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 from torch.autograd import Variable
-from train.train_ import GRUmodel, preprocess_load
+from trainpytorch import GRUmodel, preprocess_load
 import os 
 
 
