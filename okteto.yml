@@ -1,0 +1,13 @@
+name: pytorch-gru
+image: okteto/python:3
+command: bash
+sync:
+- .:/usr/src/app
+forward:
+- 8080:8080
+reverse:
+- 9000:9000
+persistentVolume: {}
+resources:
+      cpu: 5000m
+      memory: 1280Mi
