@@ -14,10 +14,5 @@ resources:
   limits:
     memory: "1280Mi"
     cpu: "5000m"
-forward:
-  - 8080:80
-  - 5432:postgres:5432
-reverse:
-  - 9000:9001
 
 
