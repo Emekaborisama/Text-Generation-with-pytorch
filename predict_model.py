@@ -3,6 +3,7 @@ import torch.nn as nn
 from torch.autograd import Variable
 from trainpytorch import GRUmodel, preprocess_load
 import os 
+import sys
 
 
 filename = '.data/letter.txt'
