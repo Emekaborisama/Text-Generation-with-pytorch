@@ -1,6 +1,6 @@
 from flask import Flask,jsonify,request,render_template, make_response
 from flask_cors import CORS, cross_origin
-from predict_model import text_generator as tg
+from .predict_model import text_generator as tg
 import os 
 
 
