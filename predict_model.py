@@ -2,6 +2,8 @@ import torch
 import torch.nn as nn
 from torch.autograd import Variable
 from trainpytorch import GRUmodel, preprocess_load
+from .predict_model import text_generator
+
 import os 
 import sys
 
