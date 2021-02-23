@@ -2,9 +2,9 @@ name: pytorch-gru
 image: okteto/python:3
 command: ["python", "app.py"]
 sync:
-- .:/usr/src/app
+- .:/usr/src/train
 forward:
-- 8080:8080
+- 8000:8000
 reverse:
 - 9000:9000
 resources:
