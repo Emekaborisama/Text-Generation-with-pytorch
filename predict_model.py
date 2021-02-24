@@ -7,6 +7,30 @@ import sys
 file_name = './data/letter.txt'
 
 
+
+class GRUmodel(nn.Module):
+    def __init__(self, input_size, hidden_size, output_size, n_layers=1):
+        super(GRUmodel, self).__init__()
+        self.input_size = input_size
+        self.hidden_size = hidden_size
+        self.output_size = output_size
+        self.n_layers = n_layers
+        
+        self.encoder = nn.Embedding(input_size, hidden_size)
+        self.gru = nn.GRU(hidden_size*2, hidden_size, n_layers,batch_first=True,
+                          bidirectional=False)
+        self.decoder = nn.Linear(hidden_size, output_size)
+    
+    def forward(self, input, hidden):
+        input = self.encoder(input.view(1, -1))
+        output, hidden = self.gru(input.view(1, 1, -1), hidden)
+        output = self.decoder(output.view(1, -1))
+        return output, hidden
+
+    def init_hidden(self):
+        return Variable(torch.zeros(self.n_layers, 1, self.hidden_size))
+
+
 def preprocess_load(filename):
   with open(filename) as f:
     textfile = f.read()
@@ -33,36 +57,20 @@ def preprocess_load(filename):
     tar.append(targ)
   return inp, tar, word_to_ix, vocab, voc_len, chunk_len
 
-class GRUmodel(nn.Module):
-    def __init__(self, input_size, hidden_size, output_size, n_layers=1):
-        super(GRUmodel, self).__init__()
-        self.input_size = input_size
-        self.hidden_size = hidden_size
-        self.output_size = output_size
-        self.n_layers = n_layers
-        
-        self.encoder = nn.Embedding(input_size, hidden_size)
-        self.gru = nn.GRU(hidden_size*2, hidden_size, n_layers,batch_first=True,
-                          bidirectional=False)
-        self.decoder = nn.Linear(hidden_size, output_size)
-    
-    def forward(self, input, hidden):
-        input = self.encoder(input.view(1, -1))
-        output, hidden = self.gru(input.view(1, 1, -1), hidden)
-        output = self.decoder(output.view(1, -1))
-        return output, hidden
 
-    def init_hidden(self):
-        return Variable(torch.zeros(self.n_layers, 1, self.hidden_size))
 
 
 
 inp, tar, word_to_ix, vocab, voc_len, chunk_len= preprocess_load(filename = file_name)
 
 
+hidden_size = 100
+n_layers = 1
+model = GRUmodel(voc_len, hidden_size, voc_len, n_layers)
 
-PATH = './model/save.pt'
-model = torch.load(PATH, map_location=torch.device('cpu'))
+
+PATH = "./model/saved.pth"
+model.load_state_dict(torch.load(PATH, map_location=torch.device('cpu')))
 model.eval()
 
 def text_generator(prime_str, predict_len, temperature):

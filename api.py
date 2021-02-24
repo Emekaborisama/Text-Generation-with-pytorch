@@ -18,8 +18,7 @@ def index():
 
 @app.route('/lovelettergen', methods = ['POST'])
 def lovel():
-    text = requests.get_json()
-    text_g = text['text']
+    text_g = request.form['content']
     result = text_generator(text_g, 40, temperature=3)
     return result
 
