@@ -10,5 +10,4 @@ COPY api.py api.py
 
 EXPOSE 8000
 
-CMD ["python", "api.py" ] 
-CMD["ls"]
+CMD ["python", "api.py" ]
