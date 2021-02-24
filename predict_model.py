@@ -1,32 +1,11 @@
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-import nltk
-import string
-import unidecode
-import random
-import torch
-import nltk
-nltk.download('stopwords')
-nltk.download('wordnet')
 import torch
 import torch.nn as nn
 from torch.autograd import Variable
 import os 
+import sys
 
+file_name = './data/letter.txt'
 
-
-
-
-
-# Check if GPU is available
-train_on_gpu = torch.cuda.is_available()
-if(train_on_gpu):
-    print('Training on GPU!')
-else: 
-    print('No GPU available, training on CPU; consider making n_epochs very small.')
-
-filename = './data/letter.txt'
 
 def preprocess_load(filename):
   with open(filename) as f:
@@ -54,10 +33,6 @@ def preprocess_load(filename):
     tar.append(targ)
   return inp, tar, word_to_ix, vocab, voc_len, chunk_len
 
-inp, tar, word_to_ix, vocab, voc_len, chunk_len= preprocess_load(filename = filename)
-
-
-
 class GRUmodel(nn.Module):
     def __init__(self, input_size, hidden_size, output_size, n_layers=1):
         super(GRUmodel, self).__init__()
@@ -82,53 +57,30 @@ class GRUmodel(nn.Module):
 
 
 
-
-
-def train(inp, target):
-    hidden = model.init_hidden()
-    model.zero_grad()
-    loss = 0
-    
-    for c in range(chunk_len):
-        output, hidden = model(inp[c], hidden)
-        loss += criterion(output, target[c])
-
-    loss.backward()
-    model_optimizer.step()
-
-    return loss.data.item() / chunk_len
-
-
-n_epochs = 10
-print_every = 100
-plot_every = 10
-hidden_size = 100
-n_layers = 1
-lr = 0.01
-best_valid_loss = float('inf')
-
-model = GRUmodel(voc_len, hidden_size, voc_len, n_layers)
-model_optimizer = torch.optim.Adam(model.parameters(), lr=lr)
-criterion = nn.CrossEntropyLoss()
-
-all_losses = []
-loss_avg = 0
-if(train_on_gpu):
-    model
-for epoch in range(1, n_epochs + 1):
-    loss = train(inp,tar)       
-    loss_avg += loss
-
-    if epoch % print_every == 0:
-        print('[%s (%d %d%%) %.4f]' % (time_since(start), epoch, epoch / n_epochs * 50, loss))
-        #print(evaluate('ge', 200), '\n')
-
-    if epoch % plot_every == 0:
-        all_losses.append(loss_avg / plot_every)
-        loss_avg = 0
-    if loss < best_valid_loss:
-        torch.save(model, './model/save.pt')
+inp, tar, word_to_ix, vocab, voc_len, chunk_len= preprocess_load(filename = file_name)
 
 
 
-    
+PATH = './model/save.pt'
+model = torch.load(PATH, map_location=torch.device('cpu'))
+model.eval()
+
+def text_generator(prime_str, predict_len, temperature):
+  hidden = model.init_hidden()
+
+  for p in range(predict_len):
+    prime_input = torch.tensor([word_to_ix[w] for w in prime_str.split()], dtype=torch.long).cuda()
+    inp = prime_input[-2:] #last two words as input
+    output, hidden = model(inp, hidden)
+        
+    # Sample from the network as a multinomial distribution
+    output_dist = output.data.view(-1).div(temperature).exp()
+    top_i = torch.multinomial(output_dist, 1)[0]
+        
+    # Add predicted word to string and use as next input
+    predicted_word = list(word_to_ix.keys())[list(word_to_ix.values()).index(top_i)]
+    prime_str += " " + predicted_word
+    #inp = torch.tensor(word_to_ix[predicted_word], dtype=torch.long)
+
+  return prime_str
+
