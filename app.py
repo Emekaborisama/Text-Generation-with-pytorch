@@ -9,7 +9,7 @@ from torch.autograd import Variable
 import os 
 import sys
 
-file_name = './data/letter.txt'
+file_name = 'letter.txt'
 
 
 def preprocess_load(filename):
