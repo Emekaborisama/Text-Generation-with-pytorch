@@ -1,6 +1,9 @@
 name: pytorch-gru
 image: okteto/python:3
 command: ["python", "api.py"]
+workdir: /usr/src/
+sync:
+ - .:/usr/src/
 forward:
 - 8000:8000
 reverse:
