@@ -1,10 +1,8 @@
-FROM python:3-slim
-
-COPY requirements.txt
+FROM python:3.6-slim
+RUN mkdir /app
+WORKDIR /app
+ADD . /app/
 RUN pip install -r requirements.txt
 
-COPY api.py
-
 EXPOSE 8000
-
-CMD ["python", "api.py" ]
+CMD ["python", "app.py"]
