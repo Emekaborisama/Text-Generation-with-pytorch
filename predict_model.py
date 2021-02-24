@@ -69,7 +69,7 @@ def text_generator(prime_str, predict_len, temperature):
   hidden = model.init_hidden()
 
   for p in range(predict_len):
-    prime_input = torch.tensor([word_to_ix[w] for w in prime_str.split()], dtype=torch.long).cuda()
+    prime_input = torch.tensor([word_to_ix[w] for w in prime_str.split()], dtype=torch.long)
     inp = prime_input[-2:] #last two words as input
     output, hidden = model(inp, hidden)
         

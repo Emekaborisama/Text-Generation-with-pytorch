@@ -1,8 +1,8 @@
 name: pytorch-gru
 image: okteto/python:3
-command: ["python", "app.py"]
+command: ["python", "api.py"]
 sync:
-- .:/usr/src/pytorch_text_generation
+- .:/usr/src/app
 forward:
 - 8000:8000
 reverse:
