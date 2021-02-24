@@ -9,7 +9,7 @@ from torch.autograd import Variable
 # Current file directory
 here = os.path.dirname(__file__)
 
-file_name = 'letter.txt'
+file_name = './data/letter.txt'
 
 text_file = os.path.join(here, file_name)
 with open(text_file) as f:

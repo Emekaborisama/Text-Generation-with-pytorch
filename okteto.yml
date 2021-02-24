@@ -2,7 +2,7 @@ name: pytorch-gru
 image: okteto/python:3
 command: ["python", "app.py"]
 sync:
-- .:/usr/src/train
+- .:/usr/src/pytorch_text_generation
 forward:
 - 8000:8000
 reverse:
