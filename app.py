@@ -6,15 +6,16 @@ import sys
 import torch
 import torch.nn as nn
 from torch.autograd import Variable
-import os 
-import sys
+# Current file directory
+here = os.path.dirname(__file__)
 
 file_name = 'letter.txt'
 
+text_file = os.path.join(here, file_name)
+with open(text_file) as f:
+    text_filen = f.read()
 
-def preprocess_load(filename):
-  with open(filename) as f:
-    textfile = f.read()
+def preprocess_load(textfile):
 
   train_data= textfile.lower().split()
 
@@ -62,12 +63,13 @@ class GRUmodel(nn.Module):
 
 
 
-inp, tar, word_to_ix, vocab, voc_len, chunk_len= preprocess_load(filename = file_name)
-
+inp, tar, word_to_ix, vocab, voc_len, chunk_len= preprocess_load(textfile = text_filen)
 
 
 PATH = './model/save.pt'
-model = torch.load(PATH, map_location=torch.device('cpu'))
+textpath = os.path.join(here, PATH)
+
+model = torch.load(textpath, map_location=torch.device('cpu'))
 model.eval()
 
 def text_generator(prime_str, predict_len, temperature):
