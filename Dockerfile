@@ -1,12 +1,9 @@
 FROM python:3-slim
 
-WORKDIR /app
-
-COPY requirements.txt requirements.txt
+COPY requirements.txt
 RUN pip install -r requirements.txt
-RUN ls
 
-COPY api.py api.py
+COPY api.py
 
 EXPOSE 8000
 
