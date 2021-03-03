@@ -1,1 +1,0 @@
-from .predict_model import text_generator

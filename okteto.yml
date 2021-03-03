@@ -1,19 +1,10 @@
-name: pytorch-gru
+name: text-generation-with-pytorch
 image: okteto/python:3
-command: ["python", "api.py"]
-workdir: /usr/src/app
+command: bash
 sync:
- - .:/usr/src/app
+- .:/usr/src/app
 forward:
-- 8000:8000
+- 8080:8080
 reverse:
 - 9000:9000
-resources:
-  requests:
-    memory: "640Mi"
-    cpu: "2500m"
-  limits:
-    memory: "1280Mi"
-    cpu: "5000m"
-
-
+persistentVolume: {}

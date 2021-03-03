@@ -1,8 +1,8 @@
-torch
-torchvision
+uvicorn==0.13.1
 Unidecode
-flask 
-Flask_Cors
+flask
 nltk
 numpy
 pandas
+Flask_Cors
+torchvision
