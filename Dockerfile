@@ -4,4 +4,4 @@ WORKDIR /app
 ADD . /app/
 RUN pip install -r requirements.txt
 EXPOSE 6443
-CMD ["python", "api.py"]
+CMD ["python3", "main.py"]
